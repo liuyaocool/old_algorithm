@@ -25,29 +25,34 @@ public class Xor02Main {
 //        System.out.println(findTimes(arr1, nn, mm));
 
         System.out.println("测试开始");
+        long t = 0;
 
         int minVal = -100;
         int maxVal = 100;
-        int maxM = 20;
+        int maxM = 40;
         int times = 100000;
 
         for (int i = 0; i < times; i++) {
             int n = randomInt(1, maxM-1);
             int m = randomInt(2, maxM);
             n = n >= m ? m - 1 : n;
-            int[] arr = randomArr(minVal, maxVal, n, m);
-            int currentNum = findTimesByHash(copyArray(arr), n, m);
+            int[][] arrs = randomArr(minVal, maxVal, n, m);
+            int[] arr = arrs[0];
+            int currentNum = arrs[1][0];
+            long tt = System.currentTimeMillis();
             int res = findTimes(arr, n, m);
+            t += System.currentTimeMillis() - tt;
             if (currentNum != res){
                 System.out.println(currentNum);
                 System.out.println(res);
                 System.out.println("结果错误");
             }
         }
-        System.out.println("测试结束");
+        System.out.println("测试结束: " + t + " ms");
     }
 
-    public static int[] randomArr(int minVal, int maxVal, int n, int m){
+    // 返回 {随机数组, {正确结果}}
+    public static int[][] randomArr(int minVal, int maxVal, int n, int m){
         int mTimes = randomInt(1, maxVal - minVal); // m次的数有多少个
         int[] result = new int[m * mTimes + n];
         int index = 0;
@@ -55,39 +60,25 @@ public class Xor02Main {
         // 避免产生重复的数 不必排除0
         HashSet<Integer> set = new HashSet<>();
 
-        int num = randomInt(minVal, maxVal);
-        set.add(num);
+        // 要找的数
+        int center = randomInt(minVal, maxVal);
+        set.add(center);
         for (int i = 0; i < n; i++) {
-            result[index++] = num;
+            result[index++] = center;
         }
 
+        int num;
         for (int i = 0; i < mTimes; i++) {
             do {
                 num = randomInt(minVal, maxVal);
             } while (set.contains(num));
+            set.add(num);
             for (int j = 0; j < m; j++) {
                 result[index++] = num;
             }
         }
         upsetArray(result);
-        return result;
-    }
-
-    public static int findTimesByHash(int[] arr, int n, int m) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int num: arr){
-            if (map.containsKey(num)){
-                map.put(num, map.get(num) + 1);
-            } else {
-                map.put(num, 1);
-            }
-        }
-        for (int num: map.keySet()) {
-            if (map.get(num) == n) {
-                return num;
-            }
-        }
-        return Integer.MAX_VALUE;
+        return new int[][]{result, {center}};
     }
 
     // 思路 int[32] 保存每一个二进制位为1出现的次数
