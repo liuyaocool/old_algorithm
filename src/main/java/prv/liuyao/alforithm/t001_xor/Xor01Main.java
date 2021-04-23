@@ -1,6 +1,4 @@
-package t001_xor;
-
-import org.junit.Test;
+package prv.liuyao.alforithm.t001_xor;
 
 public class Xor01Main {
     /**
@@ -10,9 +8,15 @@ public class Xor01Main {
      *  a ^ b = b ^ a
      *  (a^b)^c = a^(b^c)  结合律 可扩展到n个数异或
      */
+    public static void main(String[] args) {
+        exchange();
+        findOdd();
+        findRight_1();
+        findOddTwice();
+    }
 
-    @Test // 交换
-    public void exchange(){
+    // 交换
+    public static void exchange(){
         int a = 12;
         int b = 14;
 
@@ -25,8 +29,8 @@ public class Xor01Main {
     }
 
 
-    @Test // 只有一个数出现了奇数次 找到
-    public void findOdd(){
+    // 只有一个数出现了奇数次 找到
+    public static void findOdd(){
         int[] arr = {1, 2, 3, 4, 4, 3, 2, 1, 3, 4, 4};
         int eor = 0;
         for (int i = 0; i < arr.length; i++) {
@@ -35,8 +39,8 @@ public class Xor01Main {
         System.out.println(eor);
     }
 
-    @Test // 找到最右侧的1
-    public void findRight_1(){
+    // 找到最右侧的1
+    public static void findRight_1(){
         /**
          * a   = 0 1 1 0 1 1 1 0 0 | 1 0 0 0 0
          * ~a  = 1 0 0 1 0 0 0 1 1 | 0 1 1 1 1
@@ -48,8 +52,8 @@ public class Xor01Main {
         System.out.println(b);
     }
 
-    @Test // 两个数出现了奇数次 找到
-    public void findOddTwice(){
+    // 两个数出现了奇数次 找到
+    public static void findOddTwice(){
         int[] arr = {
                 1, 1,
                 2, 2,
@@ -92,19 +96,4 @@ public class Xor01Main {
 
     }
 
-    @Test // a出现了n次, 其他都出现了m次, 且m>1,n<m, 找到a, 空间O(1), 时间O(n)
-    public void findTimes() {
-        int[] arr = {
-                1, 1, 1,
-                2, 2, 2,
-                3, 3,
-                4, 4, 4,
-                5, 5, 5,
-                6, 6, 6,
-        };
-        int n = 2, m = 3;
-        // 思路 int[32] 保存每一个二进制位为1出现的次数
-
-
-    }
 }
