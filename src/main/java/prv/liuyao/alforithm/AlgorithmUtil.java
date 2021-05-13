@@ -17,6 +17,16 @@ public class AlgorithmUtil {
         return arr;
     }
 
+    public static int[] randomArray(int len){
+        int[] ret = new int[len];
+        final Random random = new Random();
+//        len *= 5;
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = random.nextInt(len) + 1;
+        }
+        return ret;
+    }
+
     public static int[] copyArray(int[] arr){
         int[] ret = new int[arr.length];
         System.arraycopy(arr, 0, ret, 0, ret.length);
@@ -69,5 +79,18 @@ public class AlgorithmUtil {
         for (int i = 0; i < arr.length; i++) {
             swapArray(arr, i, randomInt(0, arr.length-1));
         }
+    }
+
+    public static void main(String[] args) {
+        int[] a = randomArray(10);
+        int[] copy = copyArray(a);
+        int[] correct = copyArray(a);
+//        correctSort(correct);
+//        SortUtils.quickSort(a, 0, a.length-1);
+
+        printArray("原来数组：", copy);
+        printArray("排序之后：", a);
+        printArray("正确排序：", correct);
+        checkArray(correct, a);
     }
 }
