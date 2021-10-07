@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class AlgorithmUtil {
 
+    // 返回 长度[0, maxSize]随机, 值[-maxValue, maxValue] 随机
     public static int[] randomArray(int maxSize, int maxValue){
         // [0,1)    -> Math.random()
         // [0,N)    -> Math.random() * N
@@ -17,6 +18,7 @@ public class AlgorithmUtil {
         return arr;
     }
 
+    // 返回 长度为len的数组, 数组元素为[1, len]之间随机数
     public static int[] randomArray(int len){
         int[] ret = new int[len];
         final Random random = new Random();
@@ -75,6 +77,7 @@ public class AlgorithmUtil {
         return (int) (Math.random() * (max - min + 1)) + min;
     }
 
+    // 打乱数组
     public static void upsetArray(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             swapArray(arr, i, randomInt(0, arr.length-1));
@@ -92,5 +95,8 @@ public class AlgorithmUtil {
         printArray("排序之后：", a);
         printArray("正确排序：", correct);
         checkArray(correct, a);
+
+        a = randomArray(100, 50);
+        printArray("randomArray(maxSize, maxValue): ", a);
     }
 }
