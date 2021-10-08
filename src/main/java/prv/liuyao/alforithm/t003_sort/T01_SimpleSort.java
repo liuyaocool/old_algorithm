@@ -41,17 +41,20 @@ public class T01_SimpleSort {
             sortMethod.accept(mySort);
             Arrays.sort(sort);
 
-            PrintStream print = checkArray(sort, mySort) ? System.out : System.err;
+            boolean checked = checkArray(sort, mySort);
+            PrintStream print = checked ? System.out : System.err;
 
-            print.println("原始数组：" + arrayToString(original));
-            print.println("正确排序：" + arrayToString(sort));
-            print.println(sortName + "：" + arrayToString(mySort));
-            print.println("--------------------");
+            if (!checked) {
+                print.println("原始数组：" + arrayToString(original));
+                print.println("正确排序：" + arrayToString(sort));
+                print.println(sortName + "：" + arrayToString(mySort));
+                print.println("--------------------");
+            }
         }
     }
 
     public static void main(String[] args) {
-        testSort("插入排序", 20, T01_SimpleSort::insertSort);
+        testSort("插入排序", 2000, T01_SimpleSort::insertSort);
     }
 
 }

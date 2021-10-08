@@ -1,6 +1,5 @@
-package prv.liuyao.alforithm.t001_xor;
+package prv.liuyao.alforithm.t001_bit;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 import static prv.liuyao.alforithm.AlgorithmUtil.*;
@@ -8,7 +7,7 @@ import static prv.liuyao.alforithm.AlgorithmUtil.*;
 /**
  * a出现了n次, 其他都出现了m次, 且m>1,n<m, 找到a, 空间O(1), 时间O(n)
  */
-public class Xor02Main {
+public class Eor02Main {
     public static void main(String[] args) {
 //
 //        int[] arr1 = {
@@ -39,9 +38,11 @@ public class Xor02Main {
             int[][] arrs = randomArr(minVal, maxVal, n, m);
             int[] arr = arrs[0];
             int currentNum = arrs[1][0];
+
             long tt = System.currentTimeMillis();
             int res = findTimes(arr, n, m);
             t += System.currentTimeMillis() - tt;
+
             if (currentNum != res){
                 System.out.println(currentNum);
                 System.out.println(res);
