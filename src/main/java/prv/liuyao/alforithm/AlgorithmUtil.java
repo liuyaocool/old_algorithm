@@ -46,11 +46,9 @@ public class AlgorithmUtil {
     public static boolean checkArray(int[] arr1, int[] arr2){
         for (int i = 0; i < arr1.length; i++) {
             if (arr1[i] != arr2[i]) {
-                System.out.println("数组不同。");
                 return false;
             }
         }
-        System.out.println("数组相同。");
         return true;
     }
 
@@ -66,6 +64,14 @@ public class AlgorithmUtil {
             System.out.print(" " + arr[i]);
         }
         System.out.println();
+    }
+
+    public static String arrayToString(int[] arr) {
+        StringBuilder sb = new StringBuilder();
+        for (int i : arr) {
+            sb.append(i).append(" ");
+        }
+        return sb.toString();
     }
 
     // 返回 [min, max]之间的一个数
