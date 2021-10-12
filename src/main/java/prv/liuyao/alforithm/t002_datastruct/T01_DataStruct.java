@@ -3,10 +3,10 @@ package prv.liuyao.alforithm.t002_datastruct;
 public class T01_DataStruct {
 
     /**
-     * 体系班第三节课
+     * 体系班第4节课
      *
      * 1 单\双 链表反转
-     * 2 单\双 链表 删除给定值
+     * 2 单\双 链表 删除给定值, 注意返回新头部, 因为头部可能被删
      * 3 栈和队列
      *  分别用双向链表和数组实现
      *  数组队列 pollIndex pushIndex size
