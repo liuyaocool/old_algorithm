@@ -91,6 +91,21 @@ public class AlgorithmUtil {
     }
 
     public static void main(String[] args) {
+
+        int c = 0;
+        int c1 = 0;
+        for (int i = 0; i < 100_0000; i++) {
+            int i1 = randomInt(1, 100);
+            if (i1 == 1) {
+                c++;
+            }
+            if (i1 == 100) {
+                c1++;
+            }
+        }
+        System.out.println(c);
+        System.out.println(c1);
+
         int[] a = randomArray(10);
         int[] copy = copyArray(a);
         int[] correct = copyArray(a);

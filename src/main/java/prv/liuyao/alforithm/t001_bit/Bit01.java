@@ -84,7 +84,8 @@ public class Bit01 {
          *      A类: 第三位为1, 假定a在此类 则此类中所有数^ -> a
          *      B类: 第三位为0, 假定b在此类
          * 6 a,b 肯定被分散在这两类中
-         * 7 eorp = eor ^ A类 // A类筛选: A中数 & (eor & (-eor)) != 0
+         * 7 eorp = eor ^ A类
+         *      // A类筛选: A中数 & (eor & (-eor)) != 0 , (eor & (-eor))=二进制最右侧1
          *      = eor ^ a
          *      = b
          * 8 则 a = eor ^ eorp
