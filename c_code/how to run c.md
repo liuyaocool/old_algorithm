@@ -55,3 +55,53 @@
 
 5. ctrl+b 运行
 
+
+
+# gcc
+
+- -c ：只编译 不链接为可执行文件
+- -o <输出文件名> ： 指定编译结束后指定的文件名
+- -g ：添加调试信息，需要配合调试工具
+- -O ：优化编译
+- -O2 ：加大幅度的优化编译
+
+## 编译过程
+
+1. 预处理
+
+   ```
+   gcc -E main.c -o main.i
+   ```
+
+2. 编译
+
+   ```
+   gcc -S main.i -o main.s
+   gcc -S main.c
+   ```
+
+3. 汇编
+
+   ```
+   gcc -c main.s -o main.o
+   gcc -c main.c
+   ```
+
+4. 链接
+
+   ```
+   gcc main.o -o main
+   ```
+
+## 编译 
+
+- 直接编译 
+  - gcc main.c -o main
+- 多文件编译
+  - gcc func.c main.c -o main
+  - gcc ./* -o main
+
+# make Makefile
+
+源代码管理工具，使用gcc进行编译，自动编译工具
+
