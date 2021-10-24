@@ -7,3 +7,5 @@
 *.ipr
 
 target
+bin
+.vscode
