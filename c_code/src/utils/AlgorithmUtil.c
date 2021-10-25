@@ -1,24 +1,17 @@
 
-#include<stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-// #include "utils/AlgorithmUtil.h"
-#include "func.h"
 
-int main()
+#include "AlgorithmUtil.h"
+
+int* randomArray(int maxSize, int maxValue)
 {
-	printf("hello world\n");
+	static int a[10];
 
-	printf("hello world\n");
+	printf( "1\n");
 
-	printf("hello world\n");
-
-
-	printf("hello world\n");
-
-	// int* a = randomArray(3, 3);
-	int b = add(12, 345);
-	return 0;
+	return a;
 }
 
 /* 要生成和返回随机数的函数 */

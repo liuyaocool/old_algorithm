@@ -3,8 +3,6 @@
 buildFolder = target
 # 搜索所有需要链接的文件
 objs = $(wildcard $(target)/*.o)
-# 定义搜索目录
-includePaths = utils fu
 
 
 all: bin/main
@@ -15,7 +13,9 @@ bin/main: $(objs)
 	gcc -o $@ $(objs)
 
 $(buildFolder)/%.o: %.c
-	gcc -c $< -o $@ -I $(includePaths)
+	gcc -c $< -o $@
+$(buildFolder)/utils/%.o: utils/%.c
+	gcc -c $< -o $@
 
 clean:
 	-@rm *.o
