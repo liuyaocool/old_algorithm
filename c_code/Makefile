@@ -1,22 +1,3 @@
 
-# 定义编译目录
-buildFolder = target
-# 搜索所有需要链接的文件
-objs = $(wildcard $(target)/*.o)
-# 定义搜索目录
-includePaths = utils fu
-
-
-all: bin/main
-
-bin/main: $(objs)
-	mkdir -p $(buildFolder)
-	mkdir -p bin
-	gcc -o $@ $(objs)
-
-$(buildFolder)/%.o: %.c
-	gcc -c $< -o $@ -I $(includePaths)
-
-clean:
-	-@rm *.o
-	-@rm main
+all: 
+	cd src && make

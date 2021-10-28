@@ -2,20 +2,19 @@
 # 定义编译目录
 buildFolder = target
 # 搜索所有需要链接的文件
-objs = $(wildcard $(target)/*.o)
+objs = $(patsubst %.c,%.o,$(wildcard *.c))
 
 
-all: bin/main
+all: main
 
-bin/main: $(objs)
-	mkdir -p $(buildFolder)
-	mkdir -p bin
-	gcc -o $@ $(objs)
+main: $(objs)
+	@mkdir -p ../$(buildFolder)
+	@mkdir -p ../bin
+	@echo $(objs)
+	@gcc -o ../bin/$@ $(objs)
 
-$(buildFolder)/%.o: %.c
-	gcc -c $< -o $@
-$(buildFolder)/utils/%.o: utils/%.c
-	gcc -c $< -o $@
+%.o: %.c
+	gcc -c $< -o ../$(buildFolder)/$@ -L utils
 
 clean:
 	-@rm *.o
