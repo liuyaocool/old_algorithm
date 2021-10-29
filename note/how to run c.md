@@ -105,6 +105,8 @@
 
 https://blog.csdn.net/LEON1741/article/details/78174953
 
+http://www.gnu.org/software/make/manual/
+
 源代码管理工具，使用gcc进行编译，自动编译工具
 
 **注：每个平台的Makefile格式不一样**
