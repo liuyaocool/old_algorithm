@@ -55,51 +55,218 @@
 
 5. ctrl+b 运行
 
+# 目录结构
 
+```
+- include   --头文件夹
+- lib		--库文件夹
+- others	--其他代码文件夹
+- main.c	--主函数
+```
 
 # gcc
 
-- -c ：只编译 不链接为可执行文件
+https://www.bilibili.com/video/BV1rJ411V7EV?p=1
+
+## 参数
+
+- -E ：预编译，替换# 宏定义等
+- -D ：添加预处理参数
+- -S ：编译
+- -c ：汇编，只编译 不链接为可执行文件
 - -o <输出文件名> ： 指定编译结束后指定的文件名
+- -I ：指定头文件路径
+  - gcc  -Wall -Iinclude  -c  main.c 
+- -L ：指定库文件路径
+  - gcc  -Wall  main.c  -Llib  -lhello  -o  main
+- -l ：指定库文件  --xx.a
+  - gcc  -Wall  main.c  -Llib  -lhello  -o  main
+  - -lhello ：./lib/libhello.a
+- -std ：明确指定gcc使用的语言标准
+  - -ansi
+  - -pedantic
+- -Wall ：输出警告信息
+  - -Wcomment
+  - -Wformat
+  - -Wunused
+  - -Wimplicit
+  - -Wreturn-type
+  - 未被包含的
+    - -W
+    - -Wconversion
+    - -Wshadow
+    - -Wcast-qual
+    - -Wwrite-strings
+    - -Wtraditional
 - -g ：添加调试信息，需要配合调试工具
 - -O ：优化编译
 - -O2 ：加大幅度的优化编译
+- 链接：gcc main.o -o main 
+- 多文件编译：gcc func.c main.c -o main 、gcc ./* -o main
 
-## 编译过程
+## .h .c .a .so
 
-1. 预处理
+- .h ：头文件，#include 引入，在预编译过程中 c文件会替换头文件
+  - #include <stdio.h> ：从标准库、path路径开始寻找
+  - #include "stdio.h" ：从当前路径开始寻找
+  - 系统缺省头文件，gcc默认从以下路径寻找
+    - /usr/local/include/
+    - /usr/local/
+- .c ：源文件
+- .a ：静态库文件，见ar，直接拷贝机器码 进程序，**会多占内存**
+  - 如：gcc -Wall main.c /usr/lib/libm.a -o main
+  - 可简写：gcc -Wall main.c -lm -o main
+  - 系统缺省库文件，gcc默认从以下路径寻找
+    - /usr/local/lib
+    - /usr/lib
+- .so ：共享库文件，不拷贝机器码进程序，而是拷贝内存地址
+- .o ：编译完成 等待链接的文件
 
-   ```
-   gcc -E main.c -o main.i
-   ```
+## ar，创建静态库
 
-2. 编译
+ar  cr  libNAME.a  file1.o  file2.o 。。。 
 
-   ```
-   gcc -S main.i -o main.s
-   gcc -S main.c
-   ```
+ar  t  libNAME.a  列出.a 库文件的链接文件.o，如：ar t /usr.lib/libz.a
 
-3. 汇编
+gcc  -Wall  main.c  libhello.a  -o  main ，使用自己创建的库文件，注意顺序
 
-   ```
-   gcc -c main.s -o main.o
-   gcc -c main.c
-   ```
+## GNU 方言
 
-4. 链接
+default 一个c语言标准，linux内核使用此标准
 
-   ```
-   gcc main.o -o main
-   ```
+## 预处理 #
 
-## 编译 
+实质就是字符串替换
 
-- 直接编译 
-  - gcc main.c -o main
-- 多文件编译
-  - gcc func.c main.c -o main
-  - gcc ./* -o main
+可使用 -E 查看预处理结果
+
+```c
+#include <stdio.h> // 引入，拷贝
+int main()
+{
+// 若为false 则此if包含的代码将被删除，可做多层注释
+#if 0
+	printf("test1");
+#endif
+    printf("test1");
+    
+	int i;
+#define NUM (1024 + 123)
+#define NUM1 1024 + 123
+	i = NUM * 2; // (1024 + 123) * 2
+	i = NUM1 * 2; // 1024 + 123 * 2
+    
+// 此处TEST 可用 “gcc -Wall -DTEST main.c -o main” 传递参数
+#ifdef TEST 
+    printf("TEST is define\n");
+# endif
+
+// 此处NN 可用 “gcc -Wall -DNN=ttt main.c -o main” 传递参数
+    printf("NN is %s\n", NN);
+    
+// 此处NN 可用 “gcc -Wall -DCC="1+2" main.c -o main” 传递参数
+    printf("CC is %d\n", CC);
+    return 0;
+}
+```
+
+**查看cpp 默认宏定义：** cpp -dM /dev/null
+
+## 调试 -g
+
+1. gcc -Wall -g main.c -o main
+2. ./main 报错 Segmentation fault
+3. uimit -c 
+   1. 输出 0 ：不允许 core dumped
+   2. 输出unlimited ：允许产生core dumped调试文件
+4. ulimit -c unlimited ，开启允许产生core dumped文件
+5. ./main 报错 Segmentation fault (core dumped)
+6. 产生 core.2297 文件
+7. gdb main core.2297
+   1. print + 参数名
+   2. backreace 打印调用关系
+   3. quit
+
+## 性能优化
+
+一般发生在源码级别
+
+### 1. CSE (Common Subexpression Elimination 子表达式消除)
+
+重用 已经计算过的结果
+
+```c
+x = cos(v) * (1 + sin(u / 2)) + sin(w) + (1 - sin(u / 2))
+优化为 ===>
+t = sin(u / 2);
+x = cos(v) * (1 + t) + sin(w) + (1 - t)
+```
+
+### 2. FL (Function Inlining 函数内联)
+
+函数调用 通过汇编了解到，是一个频繁压栈、出栈的过程。
+
+```
+double sq(double x)
+{
+	return x * x;
+}
+double sum = 0.0;
+for(int i = 0; i < 100_0000; i++)
+{
+	sum += sq(i + 0.5);
+}
+// 以下改造可减少压栈、出栈过程，提高代码执行速度
+// 优化为 ===>
+for(int i = 0; i < 100_0000; i++)
+{
+	t = i + 0.5;
+	sum += t * t;;
+}
+```
+
+### 3. Loop Unrolling 循环优化
+
+是一个空间 时间权衡的优化方式 (speed-space tradeoff)
+
+```
+for(int i = 0; i < 7; i++)
+{
+	y[i] = i;
+}
+// 通过减少if 判断来提升性能
+// 优化为 ===>
+y[0] = 0;
+y[1] = 1;
+y[2] = 2;
+y[3] = 3;
+y[4] = 4;
+y[5] = 5;
+y[6] = 6;
+```
+
+```
+for(int i = 0; i < n; i++)
+{
+	y[i] = i;
+}
+// 优化为 ===>
+for(int i = 0; i < (n % 2); i++)
+{
+	y[i] = i;
+}
+for(int i = 0; i+1 < n; i+=2)
+{
+	y[i] = i;
+	y[i+1] = i+1;
+}
+```
+
+
+
+
+
+
 
 # make Makefile
 
