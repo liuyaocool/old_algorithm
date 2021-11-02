@@ -1,5 +1,14 @@
 
-int* randomArray(int mxSize, int maxValue);
+struct array_int
+{
+    int len;
+    int* arr;
+};
 
-/* 要生成和返回随机数的函数 */
-int * getRandom( );
+struct array_int randomArray(int mxSize, int maxValue);
+
+int randomInt(int min, int max);
+
+void upsetArray(int arr[], int len);
+
+void swapArray(int arr[], int i, int j);
