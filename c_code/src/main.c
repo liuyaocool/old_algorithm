@@ -6,7 +6,11 @@
 
 int main()
 {
+
 	printf("hello world\n");
+
+	int intsize = sizeof(int);
+	printf("intsize = %d\n", intsize);
 
 	struct array_int a = randomArray(600, 400);
 	for (int i = 0; i < a.len; i++)

@@ -14,7 +14,7 @@ struct array_int randomArray(int maxSize, int maxValue)
     /* 设置种子 */
     srand( (unsigned)time( NULL ) );
     int size = rand() % maxSize + 1;
-	int* arr = (int*) malloc(size * sizeof(size));
+	int* arr = (int*) malloc(size * sizeof(int));
     maxValue++;
     for (int i = 0; i < size; i++)
     {
