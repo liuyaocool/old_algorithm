@@ -24,6 +24,7 @@ void findTimes(int arr[], int arrsize, int m, int resData[]) {
     {
         if (arr[i] == 0) {
             zeroTimes++;
+            continue;
         }
         for (int j = 0; j < binLen; j++) {
             t[j] += arr[i] >> j & 1; // 收集二进制位
@@ -67,7 +68,7 @@ void main() {
     int maxVal = 100;
     int valSize = maxVal - minVal + 1;
     int maxM = 40;
-    int loopTimes = 1000;
+    int loopTimes = 100000;
     // 最终的随机数组
     int* randArr = malloc_int(maxM * valSize);
     // total num times, et [-100, 100] 201 numbers
@@ -94,7 +95,7 @@ void main() {
             do {
                 num = randomInt(minVal, maxVal);
                 // printf("repeat[num + minVal]=%d\n", repeat[num + minVal]);
-            } while (1 == repeat[num - minVal]);
+            } while ((0 == a && 0 == num) || 1 == repeat[num - minVal]);
             repeat[num - minVal] = 1;
             // printf("randArr[%d] = %d\n", index, num);
             for (int j = 0; j < m; j++) {
