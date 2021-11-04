@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "utils/AlgorithmUtil.h"
 
 #define ARR_LENGTH(arr) sizeof(arr)/sizeof(arr[0])
@@ -25,6 +26,7 @@ void findTimes(int arr[], int arrsize, int m, int resData[]) {
         }
         for (int j = 0; j < binLen; j++) {
             t[j] += arr[i] >> j & 1; // 收集二进制位
+            printf("t[%d]=%d\n", j, t[j]);
         }
     }
 
@@ -59,11 +61,13 @@ void main() {
     printf("测试开始\n");
     long t = 0;
 
-    int minVal = -100;
-    int maxVal = 100;
-    int maxM = 40;
+    int minVal = -10;
+    int maxVal = 10;
+    int maxM = 4;
     int loopTimes = 1;
-
+    // 最终的随机数组
+    int* randArr = (int*) malloc((maxM * (maxVal - minVal + 1)) * sizeof(int));
+    
     for (int i = 0; i < loopTimes; i++) {
         int k = randomInt(1, maxM-1);
         int m = randomInt(k+1, maxM);
@@ -72,25 +76,31 @@ void main() {
         // ↓↓↓↓↓↓↓↓↓↓↓↓↓ generate random array ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         int mTimes = randomInt(1, maxVal - minVal); // m次的数有多少个
         int arrsize = m * mTimes + k;
-        int randArr[arrsize]; // 最终的随机数组
         int index = 0;
         // 先把 k次的数加入结果
         while (index < k) {
             randArr[index++] = a;
         }
+        printf("arrsize=%d\n", arrsize);
         // 避免产生重复的数 不必排除0
         int repeat[maxVal - minVal + 1]; // total num times, et [-100, 100] 201 numbers
         for (int i = 0; i < mTimes; i++) {
             int num;
             do {
                 num = randomInt(minVal, maxVal);
-            } while (1 == repeat[num + minVal]);
-            repeat[num + minVal] = 1;
+                // printf("repeat[num + minVal]=%d\n", repeat[num + minVal]);
+            } while (1 == repeat[num - minVal]);
+            repeat[num - minVal] = 1;
+            // printf("randArr[%d] = %d\n", index, num);
             for (int j = 0; j < m; j++) {
                 randArr[index++] = num;
             }
         }
         upsetArray(randArr, arrsize);
+        // for (int i = 0; i < arrsize; i++)
+        // {
+        //     printf("randArr[%d] = %d\n", i, randArr[i]);
+        // }
         // ↑↑↑↑↑↑↑↑↑↑↑ generate random array ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
         
         long tt = 0; //System.currentTimeMillis();
@@ -102,5 +112,6 @@ void main() {
             printf("结果错误: a: <%d, %d>, k:<%d, %d>\n", a, res[0], k, res[1]);
         }
     }
+    free(randArr);
     printf("测试结束: %ld ms\n", t);
 }
