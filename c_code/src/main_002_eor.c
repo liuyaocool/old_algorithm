@@ -17,8 +17,9 @@
  */
 void findTimes(int arr[], int arrsize, int m, int resData[]) {
     int binLen = 32;
-    int t[binLen];
+    int t[32] = {0};  // fixed length arr, can default 0 use this mode
     int zeroTimes = 0;
+    
     for (int i = 0; i < arrsize; i++)
     {
         if (arr[i] == 0) {
@@ -26,7 +27,6 @@ void findTimes(int arr[], int arrsize, int m, int resData[]) {
         }
         for (int j = 0; j < binLen; j++) {
             t[j] += arr[i] >> j & 1; // 收集二进制位
-            printf("t[%d]=%d\n", j, t[j]);
         }
     }
 
@@ -58,16 +58,21 @@ void main() {
 //        printf(findTimesByHash(arr1, nn, mm));
 //        printf(findTimes(arr1, nn, mm));
 
+    random_init();
+    
     printf("测试开始\n");
     long t = 0;
 
-    int minVal = -10;
-    int maxVal = 10;
-    int maxM = 4;
-    int loopTimes = 1;
+    int minVal = -100;
+    int maxVal = 100;
+    int valSize = maxVal - minVal + 1;
+    int maxM = 40;
+    int loopTimes = 1000;
     // 最终的随机数组
-    int* randArr = (int*) malloc((maxM * (maxVal - minVal + 1)) * sizeof(int));
-    
+    int* randArr = malloc_int(maxM * valSize);
+    // total num times, et [-100, 100] 201 numbers
+    int repeat[valSize]; 
+
     for (int i = 0; i < loopTimes; i++) {
         int k = randomInt(1, maxM-1);
         int m = randomInt(k+1, maxM);
@@ -81,9 +86,9 @@ void main() {
         while (index < k) {
             randArr[index++] = a;
         }
-        printf("arrsize=%d\n", arrsize);
+        arr_init(repeat, valSize, 0);
+        // printf("arrsize=%d\n", arrsize);
         // 避免产生重复的数 不必排除0
-        int repeat[maxVal - minVal + 1]; // total num times, et [-100, 100] 201 numbers
         for (int i = 0; i < mTimes; i++) {
             int num;
             do {

@@ -7,6 +7,15 @@
 int main()
 {
 
+	int n = 21;
+	int arr[n];
+	arr[0] = 0;
+
+	for (int i = 0; i < n; i++)
+	{
+		printf("arr[%d] = %d\n", i, arr[i]);
+	}
+
 	printf("hello world\n");
 
 	int intsize = sizeof(int);
