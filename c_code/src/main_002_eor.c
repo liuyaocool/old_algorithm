@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+// #include <process.h>
+#include <time.h>
 #include "utils/AlgorithmUtil.h"
 
 #define ARR_LENGTH(arr) sizeof(arr)/sizeof(arr[0])
@@ -68,7 +70,7 @@ void main() {
     int maxVal = 100;
     int valSize = maxVal - minVal + 1;
     int maxM = 40;
-    int loopTimes = 100000;
+    int loopTimes = 100;
     // 最终的随机数组
     int* randArr = malloc_int(maxM * valSize);
     // total num times, et [-100, 100] 201 numbers
@@ -109,10 +111,13 @@ void main() {
         // }
         // ↑↑↑↑↑↑↑↑↑↑↑ generate random array ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
         
-        long tt = 0; //System.currentTimeMillis();
         int res[2];
+        int start, end;
+        start = clock();
         findTimes(randArr, arrsize, m, res);
-        // t += System.currentTimeMillis() - tt;
+        end = clock(); 
+        // printf("clock(%d) = start(%d) - end(%d)\n", end - start, start, end);
+        t += end - start;
 
         if (a != res[0] || k != res[1]){
             printf("结果错误: a: <%d, %d>, k:<%d, %d>\n", a, res[0], k, res[1]);

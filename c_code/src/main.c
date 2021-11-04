@@ -7,6 +7,11 @@
 int main()
 {
 
+ 	int  begin, end;//定义开始和结束标志位  
+    begin=clock();//开始计时  
+    end=clock();//结束计时  
+    printf("clock: %d\n", end-begin);//差为时间，单位毫秒    
+	
 	int n = 21;
 	int arr[n];
 	arr[0] = 0;
