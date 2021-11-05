@@ -12,13 +12,6 @@ bins	:= $(patsubst %.c, %.out, $(wildcard *.c))
 # 保留所有中间文件
 .SECONDARY:
 
-
-main: main.o $(objs)
-	gcc -o $(bin_path)/$@ $^
-
-main_%: main_%.o $(objs)
-	gcc -o $(bin_path)/main_$* $^
-
 all: dir $(bins)
 
 dir:
@@ -36,3 +29,14 @@ clean:
 	-rm -f $(objs)
 	-rm -f *.o
 	-rm -f $(bin_path)/*
+
+
+# --------- for test ---------
+main: main.o $(objs)
+	gcc -o $(bin_path)/$@ $^
+
+main_%: main_%.o $(objs)
+	gcc -o $(bin_path)/main_$* $^
+
+t%:
+	make $(patsubst %.c, %, $(shell ls main_$*_*))

@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 // #include <process.h>
-#include <time.h>
+// #include <time.h>
+#include <bits/time.h>
+// #include <unistd.h>
 #include "utils/AlgorithmUtil.h"
 
 #define ARR_LENGTH(arr) sizeof(arr)/sizeof(arr[0])
@@ -113,9 +115,9 @@ void main() {
         
         int res[2];
         int start, end;
-        start = clock();
+        start = CLOCK_MS;
         findTimes(randArr, arrsize, m, res);
-        end = clock(); 
+        end = CLOCK_MS;
         // printf("clock(%d) = start(%d) - end(%d)\n", end - start, start, end);
         t += end - start;
 

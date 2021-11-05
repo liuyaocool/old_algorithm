@@ -1,3 +1,5 @@
+#define CLOCK_MS (clock() / (CLOCKS_PER_SEC / 1000))
+#define CLOCK_S (clock() / CLOCKS_PER_SEC)
 
 struct array_int
 {
